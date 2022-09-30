@@ -23,3 +23,11 @@ export async function insert(req: Request, res: Response) {
 
   res.status(201).send(insertedFile);
 }
+
+export async function remove(req: Request, res: Response) {
+  const { id } = req.params;
+
+  await testFilesService.remove(+id);
+
+  res.sendStatus(200);
+}
