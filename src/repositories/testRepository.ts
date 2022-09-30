@@ -6,3 +6,9 @@ export async function insert(test: TCreateTest) {
     data: test,
   });
 }
+
+export async function findById(id: number) {
+  return await prisma.tests.findUnique({
+    where: { id },
+  });
+}
