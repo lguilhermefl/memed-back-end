@@ -6,7 +6,7 @@ import * as testFilesController from "../controllers/testFilesController";
 const testFilesRouter = Router();
 
 testFilesRouter.post(
-  "/upload",
+  "/upload/:testId",
   multer(multerConfig).single("file"),
   testFilesController.insert
 );
