@@ -10,5 +10,6 @@ testFilesRouter.post(
   multer(multerConfig).single("file"),
   testFilesController.insert
 );
+testFilesRouter.delete("/:id", testFilesController.remove);
 
 export default testFilesRouter;
