@@ -13,3 +13,17 @@ export async function insert(file: TCreateTest) {
 
   return await testFilesRepository.insert(file);
 }
+
+export async function remove(id: number) {
+  const file = await testFilesRepository.findById(id);
+
+  if (!file) return notFoundError("File not found");
+
+  const bucketParams = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: file.key,
+  };
+
+  await s3Config.send(new DeleteObjectCommand(bucketParams));
+  await testFilesRepository.remove(id);
+}
