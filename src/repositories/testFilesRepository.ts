@@ -6,3 +6,9 @@ export async function insert(file: TCreateTest) {
     data: file,
   });
 }
+
+export async function remove(id: number) {
+  await prisma.testsFiles.delete({
+    where: { id },
+  });
+}
