@@ -9,3 +9,11 @@ export async function insert(req: Request, res: Response) {
 
   res.status(201).send(insertedUser);
 }
+
+export async function signIn(req: Request, res: Response) {
+  const user: TCreateUser = req.body;
+
+  const token: string = await userService.signIn(user);
+
+  res.status(200).send({ token });
+}
