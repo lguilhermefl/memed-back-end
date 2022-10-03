@@ -6,3 +6,9 @@ export async function insert(user: TCreateUser) {
     data: user,
   });
 }
+
+export async function findByEmail(email: string) {
+  return await prisma.users.findUnique({
+    where: { email },
+  });
+}
