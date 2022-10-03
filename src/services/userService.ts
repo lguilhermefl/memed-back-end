@@ -25,3 +25,35 @@ export async function insert(user: TCreateUser) {
 
   return insertedUser;
 }
+
+export async function signIn(user: TCreateUser) {
+  const { email, password }: TCreateUser = user;
+  const userData: TUser | null = await userRepository.findByEmail(email);
+
+  if (!userData) throw notFoundError("User not found");
+  if (!bcrypt.compareSync(password, userData!.password))
+    throw unauthorizedError("Incorrect password");
+
+  const token: string = generateJwtToken(userData!.id);
+
+  return token;
+}
+
+function generateJwtToken(userId: number): string {
+  const SECRET: string = process.env.TOKEN_SECRET_KEY ?? "";
+  const EXPIRES_IN = process.env.TOKEN_EXPIRES_IN;
+
+  const payload = {
+    id: 1,
+    userId,
+    nivel: 1,
+  };
+
+  const jwtConfig = {
+    expiresIn: EXPIRES_IN,
+  };
+
+  const token = jwt.sign(payload, SECRET, jwtConfig);
+
+  return token;
+}
