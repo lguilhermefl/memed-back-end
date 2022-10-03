@@ -15,3 +15,11 @@ export async function insert(req: Request, res: Response) {
 
   res.status(201).send(insertedTest);
 }
+
+export async function getAll(req: Request, res: Response) {
+  const { userId }: any = res.locals.tokenPayload;
+
+  const tests: any = await testService.getAllByUserIdWithFiles(+userId);
+
+  res.status(200).send(tests);
+}
