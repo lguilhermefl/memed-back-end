@@ -1,5 +1,5 @@
 import { prisma } from "../config/database";
-import { TCreateTestFile } from "../types/fileType";
+import { TCreateTestFile } from "../types/fileTestType";
 
 export async function insert(file: TCreateTestFile) {
   return await prisma.testsFiles.create({
@@ -11,6 +11,10 @@ export async function remove(id: number) {
   await prisma.testsFiles.delete({
     where: { id },
   });
+}
+
+export async function findAll() {
+  return await prisma.testsFiles.findMany();
 }
 
 export async function findByTestId(testId: number) {
