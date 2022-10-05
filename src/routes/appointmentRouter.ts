@@ -6,5 +6,6 @@ const appointmentRouter = Router();
 
 appointmentRouter.use(validateJWT());
 appointmentRouter.post("/", appointmentController.insert);
+appointmentRouter.get("/", appointmentController.getAll);
 
 export default appointmentRouter;
