@@ -25,7 +25,7 @@ model Tests {
   id        Int          @id @default(autoincrement())
   title     String
   notes     String?
-  date      DateTime     @default(now()) @db.Date
+  date      DateTime?    @default(now()) @db.Date
   user      Users        @relation(fields: [userId], references: [id])
   userId    Int
   createdAt DateTime     @default(now())
@@ -51,7 +51,7 @@ model Appointments {
   id               Int                 @id @default(autoincrement())
   title            String
   notes            String?
-  date             DateTime            @default(now()) @db.Date
+  date             DateTime?           @default(now()) @db.Date
   user             Users               @relation(fields: [userId], references: [id])
   userId           Int
   createdAt        DateTime            @default(now())
