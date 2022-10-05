@@ -15,13 +15,13 @@ import {
 } from "../utils/errorUtils";
 import removeMultipleFilesS3 from "../utils/removeMultipleFiles";
 
-export async function insert(file: TAppointmentFile, userId: number) {
-  const test: TAppointment | null = await appointmentRepository.findById(
+export async function insert(file: TCreateAppointmentFile, userId: number) {
+  const appointment: TAppointment | null = await appointmentRepository.findById(
     file.appointmentId
   );
 
-  if (!test) throw notFoundError("Appointment id not found");
-  if (userId !== test!.userId)
+  if (!appointment) throw notFoundError("Appointment id not found");
+  if (userId !== appointment!.userId)
     throw unauthorizedError("Only the appointment owner can upload files");
 
   const fileWithKey: TAppointmentFile | null =
