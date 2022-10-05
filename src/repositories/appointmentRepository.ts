@@ -13,6 +13,12 @@ export async function findById(id: number) {
   });
 }
 
+export async function remove(id: number) {
+  await prisma.appointments.delete({
+    where: { id },
+  });
+}
+
 export async function findAllByUserIdWithFiles(userId: number) {
   return await prisma.$queryRaw`
     select a.id, a.title, a.notes, a.date, array(
