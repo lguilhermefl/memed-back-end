@@ -29,10 +29,19 @@ export async function insert(req: Request, res: Response) {
 }
 
 export async function remove(req: Request, res: Response) {
-  const { id } = req.params;
+  const { id }: any = req.params;
   const { userId }: any = res.locals.tokenPayload;
 
   await testFilesService.remove(+id, +userId);
+
+  res.sendStatus(200);
+}
+
+export async function removeAll(req: Request, res: Response) {
+  const { testId }: any = req.params;
+  const { userId }: any = res.locals.tokenPayload;
+
+  await testFilesService.removeAllByTestId(+testId, +userId);
 
   res.sendStatus(200);
 }
