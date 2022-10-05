@@ -6,3 +6,9 @@ export async function insert(file: TCreateFile) {
     data: file,
   });
 }
+
+export async function remove(id: number) {
+  await prisma.appointmentsFiles.delete({
+    where: { id },
+  });
+}
