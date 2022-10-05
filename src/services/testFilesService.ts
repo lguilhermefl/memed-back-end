@@ -42,7 +42,7 @@ export async function insert(file: TCreateTestFile, userId: number) {
 }
 
 export async function remove(id: number, userId: number) {
-  const file: TCreateTestFile | null = await testFilesRepository.findById(id);
+  const file: TTestFile | null = await testFilesRepository.findById(id);
 
   if (!file) throw notFoundError("File not found");
 
@@ -62,8 +62,9 @@ export async function remove(id: number, userId: number) {
 }
 
 export async function removeAllByTestId(testId: number, userId: number) {
-  const files: TCreateTestFile[] | null =
-    await testFilesRepository.findByTestId(testId);
+  const files: TTestFile[] | null = await testFilesRepository.findByTestId(
+    testId
+  );
 
   if (!files) throw notFoundError("Test doesn't have any files uploaded");
 
