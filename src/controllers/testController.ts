@@ -23,3 +23,12 @@ export async function getAll(req: Request, res: Response) {
 
   res.status(200).send(tests);
 }
+
+export async function remove(req: Request, res: Response) {
+  const { testId }: any = req.params;
+  const { userId }: any = res.locals.tokenPayload;
+
+  await testService.remove(+testId, +userId);
+
+  res.status(200);
+}

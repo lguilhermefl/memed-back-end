@@ -7,5 +7,6 @@ const testRouter = Router();
 testRouter.use(validateJWT());
 testRouter.post("/", testController.insert);
 testRouter.get("/", testController.getAll);
+testRouter.delete("/", testController.remove);
 
 export default testRouter;
