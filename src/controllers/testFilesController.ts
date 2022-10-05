@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as testFilesService from "../services/testFilesService";
-import { TTestFile, TCreateTestFile } from "../types/fileTestType";
+import { TFile, TCreateFile } from "../types/fileType";
 import { AppError } from "../utils/errorUtils";
 
 export async function insert(req: Request, res: Response) {
@@ -12,7 +12,7 @@ export async function insert(req: Request, res: Response) {
     key,
     location: url,
   } = req.file as Express.Multer.File & { key: string; location: string };
-  const file: TCreateTestFile = {
+  const file: TCreateFile = {
     name,
     key,
     size,
@@ -20,7 +20,7 @@ export async function insert(req: Request, res: Response) {
     testId: +testId,
   };
 
-  const insertedFile: TTestFile | AppError = await testFilesService.insert(
+  const insertedFile: TFile | AppError = await testFilesService.insert(
     file,
     +userId
   );
