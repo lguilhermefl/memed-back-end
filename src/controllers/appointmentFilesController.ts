@@ -37,3 +37,15 @@ export async function remove(req: Request, res: Response) {
 
   res.sendStatus(200);
 }
+
+export async function removeAll(req: Request, res: Response) {
+  const { appointmentId }: any = req.params;
+  const { userId }: any = res.locals.tokenPayload;
+
+  await appointmentFilesService.removeAllByAppointmentId(
+    +appointmentId,
+    +userId
+  );
+
+  res.sendStatus(200);
+}
