@@ -1,7 +1,7 @@
 import { prisma } from "../config/database";
-import { TAppointment } from "../types/appointmentType";
+import { TCreateAppointment } from "../types/appointmentType";
 
-export async function insert(appointment: TAppointment) {
+export async function insert(appointment: TCreateAppointment) {
   return await prisma.appointments.create({
     data: appointment,
   });
