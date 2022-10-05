@@ -1,7 +1,7 @@
 import { prisma } from "../config/database";
-import { TCreateFile } from "../types/fileType";
+import { TCreateAppointmentFile } from "../types/fileAppointmentType";
 
-export async function insert(file: TCreateFile) {
+export async function insert(file: TCreateAppointmentFile) {
   return await prisma.appointmentsFiles.create({
     data: file,
   });
