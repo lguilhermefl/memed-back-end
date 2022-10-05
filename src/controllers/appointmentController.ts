@@ -1,3 +1,4 @@
+import { IdentityStore } from "aws-sdk";
 import { Request, Response } from "express";
 import * as appointmentService from "../services/appointmentService";
 import {
@@ -30,4 +31,13 @@ export async function getAll(req: Request, res: Response) {
   );
 
   res.status(200).send(appointments);
+}
+
+export async function remove(req: Request, res: Response) {
+  const { appointmentId }: any = req.params;
+  const { userId }: any = res.locals.tokenPayload;
+
+  await appointmentService.remove(+appointmentId, +userId);
+
+  res.status(200);
 }
