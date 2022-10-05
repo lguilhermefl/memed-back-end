@@ -1,7 +1,7 @@
 import { prisma } from "../config/database";
-import { TCreateFile } from "../types/fileType";
+import { TCreateTestFile } from "../types/fileTestType";
 
-export async function insert(file: TCreateFile) {
+export async function insert(file: TCreateTestFile) {
   return await prisma.testsFiles.create({
     data: file,
   });
