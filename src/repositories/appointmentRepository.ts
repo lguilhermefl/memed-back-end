@@ -6,3 +6,9 @@ export async function insert(appointment: TAppointment) {
     data: appointment,
   });
 }
+
+export async function findById(id: number) {
+  return await prisma.appointments.findUnique({
+    where: { id },
+  });
+}
