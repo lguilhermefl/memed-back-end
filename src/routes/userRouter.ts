@@ -4,9 +4,15 @@ import { userSchema } from "../schemas/userSchema";
 import validateBodySchemaMiddleware from "../middlewares/validateBodySchema";
 
 const userRouter = Router();
-
-userRouter.use(validateBodySchemaMiddleware(userSchema));
-userRouter.post("/sign-up", userController.insert);
-userRouter.post("/", userController.signIn);
+userRouter.post(
+  "/sign-up",
+  validateBodySchemaMiddleware(userSchema),
+  userController.insert
+);
+userRouter.post(
+  "/",
+  validateBodySchemaMiddleware(userSchema),
+  userController.signIn
+);
 
 export default userRouter;
