@@ -13,8 +13,10 @@ export async function remove(id: number) {
   });
 }
 
-export async function findAll() {
-  return await prisma.testsFiles.findMany();
+export async function removeByTestId(testId: number) {
+  await prisma.testsFiles.deleteMany({
+    where: { testId },
+  });
 }
 
 export async function findByTestId(testId: number) {
