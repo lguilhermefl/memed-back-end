@@ -65,3 +65,25 @@ export async function remove(id: number, userId: number) {
   await s3Config.send(new DeleteObjectCommand(bucketParams));
   await appointmentFilesRepository.remove(id);
 }
+
+export async function removeAllByAppointmentId(
+  appointmentId: number,
+  userId: number
+) {
+  const files: TAppointmentFile[] | null =
+    await appointmentFilesRepository.findByAppointmentId(appointmentId);
+
+  if (!files)
+    throw notFoundError("Appointment doesn't have any files uploaded");
+
+  const appointment: TAppointment | null = await appointmentRepository.findById(
+    files[0]!.appointmentId
+  );
+
+  if (!appointment) throw notFoundError("Appointment id not found");
+  if (userId !== appointment.userId)
+    throw unauthorizedError("Only the appointment owner can remove files");
+
+  await removeMultipleFilesS3(files);
+  await appointmentFilesRepository.removeByAppointmentId(appointmentId);
+}
