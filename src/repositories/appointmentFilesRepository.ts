@@ -12,3 +12,9 @@ export async function remove(id: number) {
     where: { id },
   });
 }
+
+export async function removeByAppointmentId(appointmentId: number) {
+  await prisma.appointmentsFiles.deleteMany({
+    where: { appointmentId },
+  });
+}
