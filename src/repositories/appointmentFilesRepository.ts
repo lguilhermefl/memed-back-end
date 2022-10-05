@@ -18,3 +18,7 @@ export async function removeByAppointmentId(appointmentId: number) {
     where: { appointmentId },
   });
 }
+
+export async function findByAppointmentId(appointmentId: number) {
+  return await prisma.appointmentsFiles.findMany({ where: { appointmentId } });
+}
