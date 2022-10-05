@@ -42,3 +42,26 @@ export async function insert(file: TCreateAppointmentFile, userId: number) {
 
   return await appointmentFilesRepository.insert(file);
 }
+
+export async function remove(id: number, userId: number) {
+  const file: TAppointmentFile | null =
+    await appointmentFilesRepository.findById(id);
+
+  if (!file) throw notFoundError("File not found");
+
+  const appointment: TAppointment | null = await appointmentRepository.findById(
+    file!.appointmentId
+  );
+
+  if (!appointment) throw notFoundError("Appointment id not found");
+  if (userId !== appointment.userId)
+    throw unauthorizedError("Only the appointment owner can remove files");
+
+  const bucketParams = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: file.key,
+  };
+
+  await s3Config.send(new DeleteObjectCommand(bucketParams));
+  await appointmentFilesRepository.remove(id);
+}
