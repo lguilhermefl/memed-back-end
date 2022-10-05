@@ -22,3 +22,9 @@ export async function removeByAppointmentId(appointmentId: number) {
 export async function findByAppointmentId(appointmentId: number) {
   return await prisma.appointmentsFiles.findMany({ where: { appointmentId } });
 }
+
+export async function findById(id: number) {
+  return await prisma.appointmentsFiles.findUnique({
+    where: { id },
+  });
+}
