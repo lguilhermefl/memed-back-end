@@ -21,3 +21,13 @@ export async function insert(req: Request, res: Response) {
 
   res.status(201).send(insertedAppointment);
 }
+
+export async function getAll(req: Request, res: Response) {
+  const { userId }: any = res.locals.tokenPayload;
+
+  const appointments: any = await appointmentService.getAllByUserIdWithFiles(
+    +userId
+  );
+
+  res.status(200).send(appointments);
+}
