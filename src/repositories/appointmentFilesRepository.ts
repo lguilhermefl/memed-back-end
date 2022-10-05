@@ -28,3 +28,9 @@ export async function findById(id: number) {
     where: { id },
   });
 }
+
+export async function findByKey(key: string) {
+  return await prisma.appointmentsFiles.findUnique({
+    where: { key },
+  });
+}
