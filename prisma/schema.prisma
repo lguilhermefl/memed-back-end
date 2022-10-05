@@ -11,11 +11,12 @@ datasource db {
 }
 
 model Users {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  tests     Tests[]
+  id           Int            @id @default(autoincrement())
+  email        String         @unique
+  password     String
+  createdAt    DateTime       @default(now())
+  tests        Tests[]
+  appointments Appointments[]
 
   @@map("users")
 }
@@ -44,4 +45,16 @@ model TestsFiles {
   createdAt DateTime @default(now())
 
   @@map("testsFiles")
+}
+
+model Appointments {
+  id        Int      @id @default(autoincrement())
+  specialty String
+  notes     String?
+  date      DateTime @default(now()) @db.Date
+  user      Users    @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now())
+
+  @@map("appointments")
 }
