@@ -13,5 +13,9 @@ appointmentFilesRouter.post(
   appointmentFilesController.insert
 );
 appointmentFilesRouter.delete("/:id", appointmentFilesController.remove);
+appointmentFilesRouter.delete(
+  "/all/:testId",
+  appointmentFilesController.removeAll
+);
 
 export default appointmentFilesRouter;
