@@ -10,6 +10,7 @@ import {
   unauthorizedError,
   badRequestError,
 } from "../utils/errorUtils";
+import removeMultipleFilesS3 from "../utils/removeMultipleFiles";
 
 export async function insert(file: TCreateTestFile, userId: number) {
   const test: TTest | null = await testRepository.findById(file.testId);
@@ -60,6 +61,19 @@ export async function remove(id: number, userId: number) {
   await testFilesRepository.remove(id);
 }
 
-export async function findAll() {
-  return await testFilesRepository.findAll();
+export async function removeAllByTestId(testId: number, userId: number) {
+  const files: TTestFile[] | null = await testFilesRepository.findByTestId(
+    testId
+  );
+
+  if (!files) throw notFoundError("Test doesn't have any files uploaded");
+
+  const test: TTest | null = await testRepository.findById(files[0]!.testId);
+
+  if (!test) throw notFoundError("Test id not found");
+  if (userId !== test.userId)
+    throw unauthorizedError("Only the test owner can remove files");
+
+  await removeMultipleFilesS3(files);
+  await testFilesRepository.removeByTestId(testId);
 }
