@@ -28,3 +28,12 @@ export async function insert(req: Request, res: Response) {
 
   res.status(201).send(insertedFile);
 }
+
+export async function remove(req: Request, res: Response) {
+  const { id }: any = req.params;
+  const { userId }: any = res.locals.tokenPayload;
+
+  await appointmentFilesService.remove(+id, +userId);
+
+  res.sendStatus(200);
+}
