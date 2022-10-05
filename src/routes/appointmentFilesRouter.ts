@@ -12,5 +12,6 @@ appointmentFilesRouter.post(
   multer(multerConfig).single("file"),
   appointmentFilesController.insert
 );
+appointmentFilesRouter.delete("/:id", appointmentFilesController.remove);
 
 export default appointmentFilesRouter;
