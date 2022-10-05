@@ -61,14 +61,14 @@ model Appointments {
 }
 
 model AppointmentsFiles {
-  id        Int          @id @default(autoincrement())
-  name      String
-  key       String       @unique
-  size      Int
-  url       String       @unique
-  test      Appointments @relation(fields: [testId], references: [id])
-  testId    Int
-  createdAt DateTime     @default(now())
+  id            Int          @id @default(autoincrement())
+  name          String
+  key           String       @unique
+  size          Int
+  url           String       @unique
+  appointment   Appointments @relation(fields: [appointmentId], references: [id])
+  appointmentId Int
+  createdAt     DateTime     @default(now())
 
   @@map("appointmentsFiles")
 }
