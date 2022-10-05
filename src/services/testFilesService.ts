@@ -1,6 +1,6 @@
 import s3Config from "../config/s3";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
-import { TFile, TCreateFile } from "../types/fileType";
+import { TTestFile, TCreateTestFile } from "../types/fileTestType";
 import { TTest } from "../types/testType";
 import * as testRepository from "../repositories/testRepository";
 import * as testFilesRepository from "../repositories/testFilesRepository";
@@ -12,26 +12,26 @@ import {
 } from "../utils/errorUtils";
 import removeMultipleFilesS3 from "../utils/removeMultipleFiles";
 
-export async function insert(file: TCreateFile, userId: number) {
+export async function insert(file: TCreateTestFile, userId: number) {
   const test: TTest | null = await testRepository.findById(file.testId);
 
   if (!test) throw notFoundError("Test id not found");
   if (userId !== test!.userId)
     throw unauthorizedError("Only the test owner can upload files");
 
-  const fileWithKey: TFile | null = await testFilesRepository.findByKey(
+  const fileWithKey: TTestFile | null = await testFilesRepository.findByKey(
     file.key
   );
 
   if (fileWithKey) throw conflictError("File key already exists");
 
-  const fileWithUrl: TFile | null = await testFilesRepository.findByUrl(
+  const fileWithUrl: TTestFile | null = await testFilesRepository.findByUrl(
     file.url
   );
 
   if (fileWithUrl) throw conflictError("File url already exists");
 
-  const testFiles: TFile[] = await testFilesRepository.findByTestId(
+  const testFiles: TTestFile[] = await testFilesRepository.findByTestId(
     file.testId
   );
 
@@ -42,7 +42,7 @@ export async function insert(file: TCreateFile, userId: number) {
 }
 
 export async function remove(id: number, userId: number) {
-  const file: TFile | null = await testFilesRepository.findById(id);
+  const file: TCreateTestFile | null = await testFilesRepository.findById(id);
 
   if (!file) throw notFoundError("File not found");
 
@@ -62,7 +62,8 @@ export async function remove(id: number, userId: number) {
 }
 
 export async function removeAllByTestId(testId: number, userId: number) {
-  const files: TFile[] | null = await testFilesRepository.findByTestId(testId);
+  const files: TCreateTestFile[] | null =
+    await testFilesRepository.findByTestId(testId);
 
   if (!files) throw notFoundError("Test doesn't have any files uploaded");
 
