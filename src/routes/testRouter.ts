@@ -13,7 +13,7 @@ testRouter.post(
   testController.insert
 );
 testRouter.get("/", testController.getAll);
-testRouter.delete("/", testController.remove);
+testRouter.delete("/:testId", testController.remove);
 testRouter.put(
   "/:testId",
   validateBodySchemaMiddleware(updateTestSchema),
