@@ -8,7 +8,7 @@ const appointmentFilesRouter = Router();
 
 appointmentFilesRouter.use(validateJWT());
 appointmentFilesRouter.post(
-  "/upload/:testId",
+  "/:testId",
   multer(multerConfig).single("file"),
   appointmentFilesController.insert
 );

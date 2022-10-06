@@ -8,7 +8,7 @@ const testFilesRouter = Router();
 
 testFilesRouter.use(validateJWT());
 testFilesRouter.post(
-  "/upload/:testId",
+  "/:testId",
   multer(multerConfig).single("file"),
   testFilesController.insert
 );
