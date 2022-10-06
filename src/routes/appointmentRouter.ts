@@ -16,7 +16,7 @@ appointmentRouter.post(
   appointmentController.insert
 );
 appointmentRouter.get("/", appointmentController.getAll);
-appointmentRouter.delete("/", appointmentController.remove);
+appointmentRouter.delete("/:appointmentId", appointmentController.remove);
 appointmentRouter.put(
   "/:appointmentId",
   validateBodySchemaMiddleware(updateAppointmentSchema),
