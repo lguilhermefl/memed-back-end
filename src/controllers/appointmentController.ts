@@ -39,5 +39,5 @@ export async function remove(req: Request, res: Response) {
 
   await appointmentService.remove(+appointmentId, +userId);
 
-  res.status(200);
+  res.sendStatus(200);
 }

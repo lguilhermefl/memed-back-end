@@ -1,4 +1,4 @@
-import { TCreateTest, TTest } from "../types/testType";
+import { TCreateTest, TTest, TUpdateTest } from "../types/testType";
 import * as testRepository from "../repositories/testRepository";
 import * as testFilesRepository from "../repositories/testFilesRepository";
 import { notFoundError, unauthorizedError } from "../utils/errorUtils";
@@ -28,4 +28,18 @@ export async function remove(id: number, userId: number) {
   }
 
   await testRepository.remove(id);
+}
+
+export async function update(
+  testData: TUpdateTest,
+  id: number,
+  userId: number
+) {
+  const test: TTest | null = await testRepository.findById(id);
+
+  if (!test) throw notFoundError("Test id not found");
+  if (userId !== test!.userId)
+    throw unauthorizedError("Only the test owner can update it");
+
+  return await testRepository.update(testData, id);
 }

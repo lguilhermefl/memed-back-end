@@ -1,5 +1,5 @@
 import { prisma } from "../config/database";
-import { TCreateTest } from "../types/testType";
+import { TCreateTest, TUpdateTest } from "../types/testType";
 
 export async function insert(test: TCreateTest) {
   return await prisma.tests.create({
@@ -32,4 +32,11 @@ export async function findAllByUserIdWithFiles(userId: number) {
     where t."userId"=${userId}
     order by t.date
   `;
+}
+
+export async function update(testData: TUpdateTest, id: number) {
+  return await prisma.tests.update({
+    where: { id },
+    data: testData,
+  });
 }
