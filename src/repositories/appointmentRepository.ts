@@ -1,5 +1,8 @@
 import { prisma } from "../config/database";
-import { TCreateAppointment } from "../types/appointmentType";
+import {
+  TCreateAppointment,
+  TUpdateAppointment,
+} from "../types/appointmentType";
 
 export async function insert(appointment: TCreateAppointment) {
   return await prisma.appointments.create({
@@ -32,4 +35,11 @@ export async function findAllByUserIdWithFiles(userId: number) {
     where a."userId"=${userId}
     order by a.date
   `;
+}
+
+export async function update(appointmentData: TUpdateAppointment, id: number) {
+  return await prisma.appointments.update({
+    where: { id },
+    data: appointmentData,
+  });
 }

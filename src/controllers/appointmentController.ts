@@ -41,3 +41,17 @@ export async function remove(req: Request, res: Response) {
 
   res.sendStatus(200);
 }
+
+export async function update(req: Request, res: Response) {
+  const { appointmentId }: any = req.params;
+  const { userId }: any = res.locals.tokenPayload;
+  const appointmentData: TAppointmentData = req.body;
+
+  const updatedAppointment = await appointmentService.update(
+    appointmentData,
+    +appointmentId,
+    +userId
+  );
+
+  res.status(200).send(updatedAppointment);
+}

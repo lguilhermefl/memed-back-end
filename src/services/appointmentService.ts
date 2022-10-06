@@ -1,4 +1,8 @@
-import { TAppointment, TCreateAppointment } from "../types/appointmentType";
+import {
+  TAppointment,
+  TCreateAppointment,
+  TUpdateAppointment,
+} from "../types/appointmentType";
 import { TAppointmentFile } from "../types/fileAppointmentType";
 import * as appointmentFilesRepository from "../repositories/appointmentFilesRepository";
 import * as appointmentRepository from "../repositories/appointmentRepository";
@@ -31,4 +35,20 @@ export async function remove(id: number, userId: number) {
   }
 
   await appointmentRepository.remove(id);
+}
+
+export async function update(
+  appointmentData: TUpdateAppointment,
+  id: number,
+  userId: number
+) {
+  const appointment: TAppointment | null = await appointmentRepository.findById(
+    id
+  );
+
+  if (!appointment) throw notFoundError("Appointment id not found");
+  if (userId !== appointment!.userId)
+    throw unauthorizedError("Only the appointment owner can update it");
+
+  return await appointmentRepository.update(appointmentData, id);
 }
