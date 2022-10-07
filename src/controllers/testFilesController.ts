@@ -1,22 +1,20 @@
 import { Request, Response } from "express";
 import * as testFilesService from "../services/testFilesService";
 import { TTestFile, TCreateTestFile } from "../types/fileTestType";
+import createFileObject from "../utils/createFileObject";
 import { AppError } from "../utils/errorUtils";
 
 export async function insert(req: Request, res: Response) {
   const { testId } = req.params;
   const { userId }: any = res.locals.tokenPayload;
-  const {
-    originalname: name,
-    size,
-    key,
-    location: url,
-  } = req.file as Express.Multer.File & { key: string; location: string };
+
+  const uploadedFile = req.file as Express.Multer.File & {
+    key: string;
+    location: string;
+  };
+  const fileObject: any = createFileObject(uploadedFile);
   const file: TCreateTestFile = {
-    name,
-    key,
-    size,
-    url,
+    ...fileObject,
     testId: +testId,
   };
 
