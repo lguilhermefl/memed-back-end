@@ -23,6 +23,18 @@ export async function insert(req: Request, res: Response) {
   res.status(201).send(insertedAppointment);
 }
 
+export async function get(req: Request, res: Response) {
+  const { appointmentId }: any = req.params;
+  const { userId }: any = res.locals.tokenPayload;
+
+  const appointment: any = await appointmentService.getByIdAndUserIdWithFiles(
+    +appointmentId,
+    +userId
+  );
+
+  res.status(200).send(appointment);
+}
+
 export async function getAll(req: Request, res: Response) {
   const { userId }: any = res.locals.tokenPayload;
 

@@ -13,6 +13,10 @@ export async function insert(appointment: TCreateAppointment) {
   return await appointmentRepository.insert(appointment);
 }
 
+export async function getByIdAndUserIdWithFiles(id: number, userId: number) {
+  return await appointmentRepository.findByIdAndUserIdWithFiles(id, userId);
+}
+
 export async function getAllByUserIdWithFiles(userId: number) {
   return await appointmentRepository.findAllByUserIdWithFiles(userId);
 }

@@ -16,6 +16,7 @@ appointmentRouter.post(
   appointmentController.insert
 );
 appointmentRouter.get("/", appointmentController.getAll);
+appointmentRouter.get("/:appointmentId", appointmentController.get);
 appointmentRouter.delete("/:appointmentId", appointmentController.remove);
 appointmentRouter.put(
   "/:appointmentId",
