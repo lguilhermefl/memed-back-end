@@ -13,6 +13,7 @@ testRouter.post(
   testController.insert
 );
 testRouter.get("/", testController.getAll);
+testRouter.get("/:testId", testController.get);
 testRouter.delete("/:testId", testController.remove);
 testRouter.put(
   "/:testId",

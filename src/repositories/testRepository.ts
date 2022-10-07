@@ -19,6 +19,21 @@ export async function remove(id: number) {
   });
 }
 
+export async function findByIdAndUserIdWithFiles(id: number, userId: number) {
+  return await prisma.$queryRaw`
+    select t.id, t.title, t.notes, t.date, array(
+      select coalesce(
+        json_build_object('id', tf.id, 'name', tf.name, 'size', tf.size, 'url', tf.url)
+      , '[] '
+      ) from "testsFiles" tf
+      where tf."testId"=t.id
+    ) as files
+    from tests t
+    where t.id=${id} and t."userId"=${userId}
+    order by t.date
+  `;
+}
+
 export async function findAllByUserIdWithFiles(userId: number) {
   return await prisma.$queryRaw`
     select t.id, t.title, t.notes, t.date, array(

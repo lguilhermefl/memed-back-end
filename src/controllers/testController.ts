@@ -24,6 +24,18 @@ export async function getAll(req: Request, res: Response) {
   res.status(200).send(tests);
 }
 
+export async function get(req: Request, res: Response) {
+  const { userId }: any = res.locals.tokenPayload;
+  const { testId }: any = req.params;
+
+  const test: any = await testService.getByIdAndUserIdWithFiles(
+    +testId,
+    +userId
+  );
+
+  res.status(200).send(test);
+}
+
 export async function remove(req: Request, res: Response) {
   const { testId }: any = req.params;
   const { userId }: any = res.locals.tokenPayload;

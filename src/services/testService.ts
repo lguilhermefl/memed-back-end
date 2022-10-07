@@ -9,6 +9,10 @@ export async function insert(test: TCreateTest) {
   return await testRepository.insert(test);
 }
 
+export async function getByIdAndUserIdWithFiles(id: number, userId: number) {
+  return await testRepository.findByIdAndUserIdWithFiles(id, userId);
+}
+
 export async function getAllByUserIdWithFiles(userId: number) {
   return await testRepository.findAllByUserIdWithFiles(userId);
 }
