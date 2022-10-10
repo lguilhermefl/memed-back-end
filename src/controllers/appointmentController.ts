@@ -32,7 +32,7 @@ export async function get(req: Request, res: Response) {
     +userId
   );
 
-  res.status(200).send(appointment);
+  res.status(200).send(appointment[0]);
 }
 
 export async function getAll(req: Request, res: Response) {
@@ -59,7 +59,7 @@ export async function update(req: Request, res: Response) {
   const { userId }: any = res.locals.tokenPayload;
   const appointmentData: TAppointmentData = req.body;
 
-  const updatedAppointment = await appointmentService.update(
+  const updatedAppointment: TAppointment = await appointmentService.update(
     appointmentData,
     +appointmentId,
     +userId
