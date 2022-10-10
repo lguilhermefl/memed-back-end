@@ -37,8 +37,8 @@ export async function insert(file: TCreateAppointmentFile, userId: number) {
   const appointmentFiles: TAppointmentFile[] =
     await appointmentFilesRepository.findByAppointmentId(file.appointmentId);
 
-  if (!(appointmentFiles.length < 10))
-    throw badRequestError("You already have 10 files uploaded");
+  if (appointmentFiles.length >= 5)
+    throw badRequestError("You already have 5 files uploaded");
 
   return await appointmentFilesRepository.insert(file);
 }
@@ -86,4 +86,25 @@ export async function removeAllByAppointmentId(
 
   await removeMultipleFilesS3(files);
   await appointmentFilesRepository.removeByAppointmentId(appointmentId);
+}
+
+export async function getAllByAppointmentId(
+  appointmentId: number,
+  userId: number
+) {
+  const files: TAppointmentFile[] | null =
+    await appointmentFilesRepository.findByAppointmentId(appointmentId);
+
+  if (!files)
+    throw notFoundError("Appointment doesn't have any files uploaded");
+
+  const appointment: TAppointment | null = await appointmentRepository.findById(
+    files[0]!.appointmentId
+  );
+
+  if (!appointment) throw notFoundError("Appointment id not found");
+  if (userId !== appointment.userId)
+    throw unauthorizedError("Only the appointment owner can get files");
+
+  return files;
 }
