@@ -7,14 +7,18 @@ import * as appointmentFilesController from "../controllers/appointmentFilesCont
 const appointmentFilesRouter = Router();
 
 appointmentFilesRouter.use(validateJWT());
+appointmentFilesRouter.get(
+  "/:appointmentId",
+  appointmentFilesController.getAll
+);
 appointmentFilesRouter.post(
-  "/:testId",
+  "/:appointmentId",
   multer(multerConfig).single("file"),
   appointmentFilesController.insert
 );
 appointmentFilesRouter.delete("/:id", appointmentFilesController.remove);
 appointmentFilesRouter.delete(
-  "/all/:testId",
+  "/all/:appointmentId",
   appointmentFilesController.removeAll
 );
 
