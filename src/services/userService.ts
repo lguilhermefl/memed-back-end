@@ -1,4 +1,4 @@
-import { TUser, TCreateUser } from "../types/userType";
+import { TUser, TCreateUser, TSignInUser } from "../types/userType";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as userRepository from "../repositories/userRepository";
@@ -26,8 +26,8 @@ export async function insert(user: TCreateUser) {
   return insertedUser;
 }
 
-export async function signIn(user: TCreateUser) {
-  const { email, password }: TCreateUser = user;
+export async function signIn(user: TSignInUser) {
+  const { email, password }: TSignInUser = user;
   const userData: TUser | null = await userRepository.findByEmail(email);
 
   if (!userData) throw notFoundError("User not found");
