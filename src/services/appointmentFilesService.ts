@@ -73,11 +73,11 @@ export async function removeAllByAppointmentId(
   const files: TAppointmentFile[] | null =
     await appointmentFilesRepository.findByAppointmentId(appointmentId);
 
-  if (!files)
+  if (files.length === 0)
     throw notFoundError("Appointment doesn't have any files uploaded");
 
   const appointment: TAppointment | null = await appointmentRepository.findById(
-    files[0]!.appointmentId
+    appointmentId
   );
 
   if (!appointment) throw notFoundError("Appointment id not found");

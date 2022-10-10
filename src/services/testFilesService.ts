@@ -66,9 +66,10 @@ export async function removeAllByTestId(testId: number, userId: number) {
     testId
   );
 
-  if (!files) throw notFoundError("Test doesn't have any files uploaded");
+  if (files.length === 0)
+    throw notFoundError("Test doesn't have any files uploaded");
 
-  const test: TTest | null = await testRepository.findById(files[0]!.testId);
+  const test: TTest | null = await testRepository.findById(testId);
 
   if (!test) throw notFoundError("Test id not found");
   if (userId !== test.userId)
