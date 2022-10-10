@@ -14,7 +14,14 @@ export async function insert(appointment: TCreateAppointment) {
 }
 
 export async function getByIdAndUserIdWithFiles(id: number, userId: number) {
-  return await appointmentRepository.findByIdAndUserIdWithFiles(id, userId);
+  const appointment: any =
+    await appointmentRepository.findByIdAndUserIdWithFiles(id, userId);
+
+  if (appointment.length === 0) throw notFoundError("Appointent id not found");
+  if (userId !== appointment[0]!.userId)
+    throw unauthorizedError("Only the owner can get the appointment");
+
+  return appointment[0];
 }
 
 export async function getAllByUserIdWithFiles(userId: number) {
