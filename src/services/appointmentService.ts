@@ -25,7 +25,13 @@ export async function getByIdAndUserIdWithFiles(id: number, userId: number) {
 }
 
 export async function getAllByUserIdWithFiles(userId: number) {
-  return await appointmentRepository.findAllByUserIdWithFiles(userId);
+  const appointments: any =
+    await appointmentRepository.findAllByUserIdWithFiles(userId);
+
+  if (appointments.length !== 0 && userId !== appointments[0]!.userId)
+    throw unauthorizedError("Only the owner can get the appointments");
+
+  return appointments;
 }
 
 export async function remove(id: number, userId: number) {
