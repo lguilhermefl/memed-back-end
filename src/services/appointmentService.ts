@@ -17,7 +17,7 @@ export async function getByIdAndUserIdWithFiles(id: number, userId: number) {
   const appointment: any =
     await appointmentRepository.findByIdAndUserIdWithFiles(id, userId);
 
-  if (appointment.length === 0) throw notFoundError("Appointent id not found");
+  if (appointment.length === 0) throw notFoundError("Appointment id not found");
   if (userId !== appointment[0]!.userId)
     throw unauthorizedError("Only the owner can get the appointment");
 
