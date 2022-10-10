@@ -47,3 +47,16 @@ export async function removeAll(req: Request, res: Response) {
 
   res.sendStatus(200);
 }
+
+export async function getAll(req: Request, res: Response) {
+  const { appointmentId }: any = req.params;
+  const { userId }: any = res.locals.tokenPayload;
+
+  const files: TAppointmentFile[] =
+    await appointmentFilesService.getAllByAppointmentId(
+      +appointmentId,
+      +userId
+    );
+
+  res.status(200).send(files);
+}
