@@ -33,7 +33,7 @@ export async function get(req: Request, res: Response) {
     +userId
   );
 
-  res.status(200).send(test);
+  res.status(200).send(test[0]);
 }
 
 export async function remove(req: Request, res: Response) {
@@ -50,7 +50,11 @@ export async function update(req: Request, res: Response) {
   const { userId }: any = res.locals.tokenPayload;
   const testData: TUpdateTest = req.body;
 
-  await testService.update(testData, +testId, +userId);
+  const updatedTest: TTest = await testService.update(
+    testData,
+    +testId,
+    +userId
+  );
 
-  res.status(200);
+  res.status(200).send(updatedTest);
 }
