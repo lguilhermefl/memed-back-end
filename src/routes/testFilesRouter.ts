@@ -7,6 +7,7 @@ import * as testFilesController from "../controllers/testFilesController";
 const testFilesRouter = Router();
 
 testFilesRouter.use(validateJWT());
+testFilesRouter.get("/:testId", testFilesController.getAll);
 testFilesRouter.post(
   "/:testId",
   multer(multerConfig).single("file"),
