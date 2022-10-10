@@ -10,7 +10,13 @@ export async function insert(test: TCreateTest) {
 }
 
 export async function getByIdAndUserIdWithFiles(id: number, userId: number) {
-  return await testRepository.findByIdAndUserIdWithFiles(id, userId);
+  const test: any = await testRepository.findByIdAndUserIdWithFiles(id, userId);
+
+  if (test.length === 0) throw notFoundError("Test id not found");
+  if (userId !== test[0]!.userId)
+    throw unauthorizedError("Only the owner can get the test");
+
+  return test[0];
 }
 
 export async function getAllByUserIdWithFiles(userId: number) {
