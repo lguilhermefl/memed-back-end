@@ -21,7 +21,7 @@ export async function remove(id: number) {
 
 export async function findByIdAndUserIdWithFiles(id: number, userId: number) {
   return await prisma.$queryRaw`
-    select t.id, t.title, t.notes, t.date, array(
+    select t.id, t.title, t.notes, t.date, t."userId", array(
       select coalesce(
         json_build_object('id', tf.id, 'name', tf.name, 'size', tf.size, 'url', tf.url)
       , '[] '
@@ -36,7 +36,7 @@ export async function findByIdAndUserIdWithFiles(id: number, userId: number) {
 
 export async function findAllByUserIdWithFiles(userId: number) {
   return await prisma.$queryRaw`
-    select t.id, t.title, t.notes, t.date, array(
+    select t.id, t.title, t.notes, t.date, t."userId", array(
       select coalesce(
         json_build_object('id', tf.id, 'name', tf.name, 'size', tf.size, 'url', tf.url)
       , '[] '
