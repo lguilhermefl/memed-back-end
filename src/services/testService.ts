@@ -20,7 +20,12 @@ export async function getByIdAndUserIdWithFiles(id: number, userId: number) {
 }
 
 export async function getAllByUserIdWithFiles(userId: number) {
-  return await testRepository.findAllByUserIdWithFiles(userId);
+  const tests: any = await testRepository.findAllByUserIdWithFiles(userId);
+
+  if (tests.length !== 0 && userId !== tests[0]!.userId)
+    throw unauthorizedError("Only the owner can get the tests");
+
+  return tests;
 }
 
 export async function remove(id: number, userId: number) {
