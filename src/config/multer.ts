@@ -5,6 +5,9 @@ import multerS3 from "multer-s3";
 import s3Config from "./s3";
 import { unprocessableEntry } from "../utils/errorUtils";
 
+import * as testFilesRepository from "../repositories/testFilesRepository";
+import * as appointmentFilesRepository from "../repositories/appointmentFilesRepository";
+
 const storageTypes = {
   local: multer.diskStorage({
     destination: (req, file, cb) => {
@@ -57,6 +60,10 @@ const multerConfig = {
       "application/pdf",
     ];
 
+    const { testId, appointmentId } = req.params;
+
+    checkMaxFileQuantity(testId, appointmentId, cb);
+
     if (allowedMimes.includes(file.mimetype)) {
       cb(null, true);
     } else {
@@ -64,5 +71,27 @@ const multerConfig = {
     }
   },
 };
+
+async function checkMaxFileQuantity(
+  testId: string,
+  appointmentId: string,
+  cb: any
+) {
+  if (testId) {
+    const files = await testFilesRepository.findByTestId(+testId);
+    if (files.length >= 5)
+      return cb(unprocessableEntry("Max file quantity for test reached"));
+  }
+
+  if (appointmentId) {
+    const files = await appointmentFilesRepository.findByAppointmentId(
+      +appointmentId
+    );
+    if (files.length >= 5)
+      return cb(
+        unprocessableEntry("Max file quantity for appointment reached")
+      );
+  }
+}
 
 export default multerConfig;
