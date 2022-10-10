@@ -35,8 +35,8 @@ export async function insert(file: TCreateTestFile, userId: number) {
     file.testId
   );
 
-  if (!(testFiles.length < 10))
-    throw badRequestError("You already have 10 files uploaded");
+  if (testFiles.length >= 5)
+    throw badRequestError("You already have 5 files uploaded");
 
   return await testFilesRepository.insert(file);
 }
@@ -76,4 +76,20 @@ export async function removeAllByTestId(testId: number, userId: number) {
 
   await removeMultipleFilesS3(files);
   await testFilesRepository.removeByTestId(testId);
+}
+
+export async function getAllByTestId(testId: number, userId: number) {
+  const files: TTestFile[] | null = await testFilesRepository.findByTestId(
+    testId
+  );
+
+  if (!files) throw notFoundError("Test doesn't have any files uploaded");
+
+  const test: TTest | null = await testRepository.findById(files[0]!.testId);
+
+  if (!test) throw notFoundError("Test id not found");
+  if (userId !== test.userId)
+    throw unauthorizedError("Only the test owner can get files");
+
+  return files;
 }
