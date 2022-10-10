@@ -32,7 +32,7 @@ export async function get(req: Request, res: Response) {
     +userId
   );
 
-  res.status(200).send(appointment[0]);
+  res.status(200).send(appointment);
 }
 
 export async function getAll(req: Request, res: Response) {
