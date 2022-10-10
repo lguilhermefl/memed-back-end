@@ -33,7 +33,7 @@ export async function get(req: Request, res: Response) {
     +userId
   );
 
-  res.status(200).send(test[0]);
+  res.status(200).send(test);
 }
 
 export async function remove(req: Request, res: Response) {
