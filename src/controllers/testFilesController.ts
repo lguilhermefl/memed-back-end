@@ -43,3 +43,15 @@ export async function removeAll(req: Request, res: Response) {
 
   res.sendStatus(200);
 }
+
+export async function getAll(req: Request, res: Response) {
+  const { testId }: any = req.params;
+  const { userId }: any = res.locals.tokenPayload;
+
+  const files: TTestFile[] = await testFilesService.getAllByTestId(
+    +testId,
+    +userId
+  );
+
+  res.status(200).send(files);
+}
